@@ -39,7 +39,7 @@ class CluelessServer:
     """
     def processMessage(self, message, client):
         loaded_msg = pickle.loads(message)
-        print(f"Processing Message from Client {self.clients[client]}: {loaded_msg}")
+        print(f"Processing Message from Client {self.clients[client]}: {loaded_msg.content}")
 
         if loaded_msg.type == 'move':
             self.validateMove()
@@ -50,7 +50,7 @@ class CluelessServer:
         elif loaded_msg.type == 'disprove':
             self.validateDisprove()
         else:
-            print(f"Processing Failed: Unknown Message {loaded_msg}")
+            print(f"Processing Failed, Unknown Message Type: {loaded_msg.type}")
     
     """
     Starts Server Listening for Client Connections
