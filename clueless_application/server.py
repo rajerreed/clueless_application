@@ -9,8 +9,6 @@ class CluelessServer:
         self.host = host
         self.port = port
         self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        #self.clients = []
-        #self.clients = {}
         self.clients = OrderedDict()
 
     def validateMove(self):
@@ -39,7 +37,7 @@ class CluelessServer:
     """
     def processMessage(self, message, client):
         loaded_msg = pickle.loads(message)
-        print(f"Processing Message from Client {self.clients[client]}: {loaded_msg.content}")
+        print(f"Processing Message from Client {self.clients[client]}: {loaded_msg.contents}")
 
         if loaded_msg.type == 'move':
             self.validateMove()
@@ -50,7 +48,7 @@ class CluelessServer:
         elif loaded_msg.type == 'disprove':
             self.validateDisprove()
         else:
-            print(f"Processing Failed, Unknown Message Type: {loaded_msg.type}")
+            print(f"Processing Failed: Unknown Message Type \"{loaded_msg.type}\"")
     
     """
     Starts Server Listening for Client Connections
@@ -64,7 +62,6 @@ class CluelessServer:
             client, addr = self.socket.accept()
             print(f"Accepted connection from {addr}")
             self.clients[client] = addr
-            #self.clients.append(client)
 
             thread = threading.Thread(target=self.handle_client, args=(client,))
             thread.start()
@@ -87,10 +84,10 @@ class CluelessServer:
             except Exception as e:
                 print(f"Error: {e}")
                 break
-
+        
+        print(f"Lost Connection to Client {self.clients[client]}")
         client.close()
         del self.clients[client]
-        #self.clients.remove(client)
 
 if __name__ == "__main__":
     HOST = '127.0.0.1'

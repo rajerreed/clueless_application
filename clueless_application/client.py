@@ -26,8 +26,11 @@ class CluelessClient:
         self.socket.close()
 
 if __name__ == "__main__":
-    HOST = '127.0.0.1'
-    PORT = 12345
+    #HOST = '127.0.0.1'
+    #PORT = 12345
+
+    HOST = input("Enter Server IP Address: ")
+    PORT = int(input("Enter Server Port: "))
 
     client = CluelessClient(HOST, PORT)
     client.connect()
